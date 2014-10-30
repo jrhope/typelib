@@ -25,6 +25,10 @@ namespace Typelib
 	    { buffer = data; }
 	    template<> inline void swap_helper<2, uint16_t>(const uint16_t data, uint16_t& buffer)
 	    { buffer = ((data >> 8) & 0xFF) | ((data << 8) & 0xFF00); }
+#ifdef __VXWORKS__
+	    template<> inline void swap_helper<4, unsigned int>(const unsigned int data, unsigned int& buffer)
+	    { buffer = ((data & 0xFF000000) >> 24) | ((data & 0x00FF0000) >> 8) | ((data & 0xFF) << 24) | ((data & 0xFF00) << 8); }
+#endif
 	    template<> inline void swap_helper<4, uint32_t>(const uint32_t data, uint32_t& buffer)
 	    { buffer = ((data & 0xFF000000) >> 24) | ((data & 0x00FF0000) >> 8) | ((data & 0xFF) << 24) | ((data & 0xFF00) << 8); }
 	    template<> inline void swap_helper<8, uint64_t>(const uint64_t data, uint64_t& buffer)
