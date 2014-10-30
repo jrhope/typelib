@@ -351,7 +351,7 @@ namespace Typelib
 	    string cur_name  = getRelativeName(name, cur_space);
 
 	    // Check if there is already a type with the same relative name
-	    TypeMap::iterator it = m_current.find(cur_name);
+	    NameMap::iterator it = m_current.find(cur_name);
 	    if (it == m_current.end() || !nameSort(it->second.type->getName(), name))
 	    {
 		m_current.erase(cur_name);
