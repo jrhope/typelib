@@ -28,13 +28,13 @@ BOOST_AUTO_TEST_CASE( test_vector_assumptions )
     {
         vector<int32_t> values;
         values.resize(10);
-        BOOST_REQUIRE_EQUAL(10, values.size());
-        BOOST_REQUIRE_EQUAL(5, reinterpret_cast< vector<int64_t>& >(values).size());
+        BOOST_REQUIRE_EQUAL(10U, values.size());
+        BOOST_REQUIRE_EQUAL(5U, reinterpret_cast< vector<int64_t>& >(values).size());
     }
     {
         vector< vector<double> > values;
         values.resize(10);
-        BOOST_REQUIRE_EQUAL(10, values.size());
+        BOOST_REQUIRE_EQUAL(10U, values.size());
         BOOST_REQUIRE_EQUAL(10 * sizeof(vector<double>), reinterpret_cast< vector<int8_t>& >(values).size());
     }
 
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE( test_vector_getElementCount )
 
     std::vector<B> vector;
     vector.resize(10);
-    BOOST_REQUIRE_EQUAL(10, container.getElementCount(&vector));
+    BOOST_REQUIRE_EQUAL(10U, container.getElementCount(&vector));
 }
 
 BOOST_AUTO_TEST_CASE( test_vector_init_destroy )
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE( test_vector_init_destroy )
 
     void* v_memory = malloc(sizeof(std::vector<B>));
     container.init(v_memory);
-    BOOST_REQUIRE_EQUAL(0, container.getElementCount(v_memory));
+    BOOST_REQUIRE_EQUAL(0U, container.getElementCount(v_memory));
     container.destroy(v_memory);
     free(v_memory);
 }
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE( test_vector_push )
     for (int value = 0; value < 10; ++value)
     {
         container.push(&vector, Value(&value, container.getIndirection()));
-        BOOST_REQUIRE_EQUAL(value + 1, vector.size());
+        BOOST_REQUIRE_EQUAL(unsigned(value + 1), vector.size());
 
         for (int i = 0; i < value; ++i)
             BOOST_REQUIRE_EQUAL(i, vector[i]);
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE( test_vector_erase )
     value = 5;
     BOOST_REQUIRE(container.erase(&vector, Value(&value, container.getIndirection())));
 
-    BOOST_REQUIRE_EQUAL(9, vector.size());
+    BOOST_REQUIRE_EQUAL(9U, vector.size());
     for (int i = 0; i < 5; ++i)
         BOOST_REQUIRE_EQUAL(i, vector[i]);
     for (int i = 5; i < 9; ++i)
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE( test_vector_delete_if )
 
     container.delete_if(&vector, test_delete_if_pred);
 
-    BOOST_REQUIRE_EQUAL(8, vector.size());
+    BOOST_REQUIRE_EQUAL(8U, vector.size());
     for (int i = 0; i < 4; ++i)
         BOOST_REQUIRE_EQUAL(i, vector[i]);
     for (int i = 4; i < 8; ++i)
@@ -225,14 +225,14 @@ BOOST_AUTO_TEST_CASE( test_vector_visit )
     v.resize(10);
     for (int i = 0; i < 10; ++i)
         v[i] = i;
-    BOOST_REQUIRE_EQUAL(10, container.getElementCount(&v));
+    BOOST_REQUIRE_EQUAL(10U, container.getElementCount(&v));
 
     // Try visiting the value
     Value value(&v, container);
     AssertValueVisit visitor;
     visitor.apply(value);
 
-    BOOST_REQUIRE_EQUAL(10, visitor.values.size());
+    BOOST_REQUIRE_EQUAL(10U, visitor.values.size());
     for (int i = 0; i < 10; ++i)
         BOOST_REQUIRE_EQUAL(i, visitor.values[i]);
 }
@@ -258,11 +258,11 @@ BOOST_AUTO_TEST_CASE( test_erase_collection_of_collections )
 
     BOOST_REQUIRE(container.erase(&v, Value(&new_element, inside)));
 
-    BOOST_REQUIRE_EQUAL(10, v.size());
+    BOOST_REQUIRE_EQUAL(10U, v.size());
 
     for (int i = 0; i < 10; ++i)
     {
-        BOOST_REQUIRE_EQUAL(10, v[i].size());
+        BOOST_REQUIRE_EQUAL(10U, v[i].size());
         for (int j = 0; j < 10; ++j)
             BOOST_REQUIRE_EQUAL(i * 100 + j, v[i][j]);
     }
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE( test_copy_collection_of_collections )
 
     for (int i = 0; i < 10; ++i)
     {
-        BOOST_REQUIRE_EQUAL(10, v[i].size());
+        BOOST_REQUIRE_EQUAL(10U, v[i].size());
         for (int j = 0; j < 10; ++j)
             BOOST_REQUIRE_EQUAL(i * 100 + j, v[i][j]);
     }

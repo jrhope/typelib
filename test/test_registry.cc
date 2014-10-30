@@ -136,10 +136,10 @@ BOOST_AUTO_TEST_CASE( test_registry_namespaces )
     BOOST_REQUIRE(( ns3 = dynamic_cast<Numeric const*>(registry.get("/NS2/NS3/Test")) ));
     BOOST_REQUIRE(( ns  = dynamic_cast<Numeric const*>(registry.get("/Test")) ));
 
-    BOOST_REQUIRE_EQUAL(1, ns1->getSize());
-    BOOST_REQUIRE_EQUAL(2, ns2->getSize());
-    BOOST_REQUIRE_EQUAL(3, ns3->getSize());
-    BOOST_REQUIRE_EQUAL(4, ns->getSize());
+    BOOST_REQUIRE_EQUAL(1U, ns1->getSize());
+    BOOST_REQUIRE_EQUAL(2U, ns2->getSize());
+    BOOST_REQUIRE_EQUAL(3U, ns3->getSize());
+    BOOST_REQUIRE_EQUAL(4U, ns->getSize());
 
     { registry.setDefaultNamespace("/NS2");
 	Type const* relative;
